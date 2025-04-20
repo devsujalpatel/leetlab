@@ -40,7 +40,8 @@ export const register = async (req, res) => {
             message: "User created successfully",
             user: {
                 id: newUser.id,
-                email: newUser.name,
+				name: newUser.name,
+                email: newUser.email,
                 role: newUser.role,
                 image: newUser.image
             }
