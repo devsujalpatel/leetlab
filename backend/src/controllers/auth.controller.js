@@ -111,8 +111,8 @@ export const logout = async (req, res) => {
 		});
 		res.status(200).json({
 			success: true,
-			message: "User loged out successfully"
-		})
+			message: "User loged out successfully",
+		});
 	} catch (error) {
 		console.error("Error logout user:", error);
 		res.status(500).json({
@@ -121,5 +121,16 @@ export const logout = async (req, res) => {
 	}
 };
 export const check = async (req, res) => {
-	
+	try {
+		res.status(200).json({
+			success: true,
+			message: "User authenticated successfullly",
+			user: req.user
+		});
+	} catch (error) {
+		console.error("Error checking user:", error);
+		res.status(500).json({
+			error: "Error checking user",
+		});
+	}
 };
