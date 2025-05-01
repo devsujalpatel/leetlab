@@ -51,7 +51,7 @@ model Problem {
   editorial   String?
 
   testcases        Json
-  codeSnippet      Json
+  codeSnippets      Json
   refrenceSolution Json
 
   createdAt DateTime @default(now())
