@@ -50,9 +50,9 @@ model Problem {
   hints       String?
   editorial   String?
 
-  testcases        Json
-  codeSnippets     Json
-  refrenceSolution Json
+  testcases         Json
+  codeSnippets      Json
+  refrenceSolutions Json
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

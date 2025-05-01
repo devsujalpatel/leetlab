@@ -1,5 +1,5 @@
 import { db } from "../libs/db.js";
-import { getJudge0LanguageId, pollBatchResults } from "../libs/judge0.lib.js";
+import { getJudge0LanguageId, pollBatchResults, submitBatch } from "../libs/judge0.lib.js";
 
 export const createProblem = async (req, res) => {
 	const {
@@ -11,7 +11,7 @@ export const createProblem = async (req, res) => {
 		constraints,
 		testcases,
 		codeSnippets,
-		refrenceSolution,
+		refrenceSolutions,
 	} = req.body;
 
 	if (req.user.role !== "ADMIN") {
@@ -19,11 +19,9 @@ export const createProblem = async (req, res) => {
 			error: "You are not allowd to create a problem",
 		});
 	}
-
 	try {
-		for (const [language, solutionCode] of Object.entries(
-			refrenceSolution,
-		)) {
+		for (const [language, solutionCode] of Object.entries(refrenceSolutions)) {
+			
 			const languageId = getJudge0LanguageId(language);
 			if (!languageId) {
 				return res.status(400).json({
@@ -40,46 +38,45 @@ export const createProblem = async (req, res) => {
 
 			const submissionResults = await submitBatch(submissions);
 
-            const tokens = submissionResults.map((res) => res.token);
+			const tokens = submissionResults.map((res) => res.token);
 
-            const results = pollBatchResults(tokens)
+			const results = pollBatchResults(tokens);
 
-            for(let i = 0; i < results.length; i++){
-                const result = results[i]
-
-                if(result.status.id !== 3){
-                    return res.status(400).json({
-                        error: `Testcase ${i+1} failed for language ${language}`
-                    })
-                }                
-            }
-            const newProblem = await db.problem.create({
-                data: {
-                    title,
-                    description,
-                    difficulty,
-                    tags,
-                    examples,
-                    constraints,
-                    testcases,
-                    codeSnippets,
-                    refrenceSolution,
-                    userId: req.user.id,
-                }
-            })
-            return res.status(201).json({
-                success: true,
-                message: "Message Created Successfully",
-                problem: newProblem
-            })
+			for (let i = 0; i < results.length; i++) {
+				const result = results[i];
+				// console.log("Result---", result);
+				if (result.status.id !== 3) {
+					return res.status(400).json({
+						error: `Testcase ${i + 1} failed for language ${language}`,
+					});
+				}
+			}
+			const newProblem = await db.problem.create({
+				data: {
+					title,
+					description,
+					difficulty,
+					tags,
+					examples,
+					constraints,
+					testcases,
+					codeSnippets,
+					refrenceSolutions,
+					userId: req.user.id,
+				},
+			});
+			return res.status(201).json({
+				success: true,
+				message: "Message Created Successfully",
+				problem: newProblem,
+			});
 		}
-
 	} catch (error) {
-        console.log(error);
-    return res.status(500).json({
-      error: "Error While Creating Problem",
-    });
-    }
+		console.log(error);
+		return res.status(500).json({
+			error: "Error While Creating Problem",
+		});
+	}
 };
 
 export const getAllProblems = async (req, res) => {};
