@@ -5,6 +5,7 @@ import {
 	deleteProblem,
 	getAllProblems,
 	getAllProblemSolvedByUser,
+	getProblemById,
 	updateProblem,
 } from "../controllers/problem.controller.js";
 
@@ -17,7 +18,7 @@ problemRoutes.post(
 	createProblem,
 );
 problemRoutes.get("/get-all-problems", authMiddleware, getAllProblems);
-problemRoutes.get("/get-problem/:id", authMiddleware, createProblem);
+problemRoutes.get("/get-problem/:id", authMiddleware, getProblemById);
 problemRoutes.put(
 	"/update-problem/:id",
 	authMiddleware,
