@@ -54,7 +54,7 @@ model Problem {
 
   testcases         Json // 
   codeSnippets      Json
-  refrenceSolutions Json
+  referenceSolutions Json
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -123,8 +123,8 @@ model ProblemSolved {
 }
 
 
-model Playlist {
-  id String @id @default(uuid())
-  name String
-  description String?
-}
+// model Playlist {
+//   id String @id @default(uuid())
+//   name String
+//   description String?
+// }

@@ -15,7 +15,7 @@ export const createProblem = async (req, res) => {
 		constraints,
 		testcases,
 		codeSnippets,
-		refrenceSolutions,
+		referenceSolutions,
 	} = req.body;
 
 	if (req.user.role !== "ADMIN") {
@@ -25,7 +25,7 @@ export const createProblem = async (req, res) => {
 	}
 	try {
 		for (const [language, solutionCode] of Object.entries(
-			refrenceSolutions,
+			referenceSolutions,
 		)) {
 			const languageId = getJudge0LanguageId(language);
 			if (!languageId) {
@@ -66,7 +66,7 @@ export const createProblem = async (req, res) => {
 					constraints,
 					testcases,
 					codeSnippets,
-					refrenceSolutions,
+					referenceSolutions,
 					userId: req.user.id,
 				},
 			});
