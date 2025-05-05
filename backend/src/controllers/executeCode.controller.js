@@ -4,9 +4,7 @@ export const executeCode = async (req, res) => {
   try {
     const { source_code, language_id, stdin, expected_outputs, problemId } =
       req.body;
-
     const userId = req.user.id;
-
     if (
       !Array.isArray(stdin) ||
       stdin.length === 0 ||
@@ -23,11 +21,8 @@ export const executeCode = async (req, res) => {
     }));
 
     const submitResponse = await submitBatch(submissions);
-
     const tokens = submitResponse.map((res)=>res.token);
-
     const results = await pollBatchResults(tokens);
-
     console.log("Result---", results);
     res.status(200).json({
         message:"Code Executed!"
