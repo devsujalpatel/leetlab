@@ -15,10 +15,11 @@ export const pollBatchResults = async (tokens) => {
 	while (true) {
 		const { data } = await axios.get(
 			`${process.env.JUDGE0_API_URL}/submissions/batch`,
-			{ params:{
-				tokens: tokens.join(","),
-				base64_encoded: false,
-			}
+			{
+				params: {
+					tokens: tokens.join(","),
+					base64_encoded: false,
+				},
 			},
 		);
 		const results = data.submissions;
@@ -40,4 +41,14 @@ export const submitBatch = async (submissions) => {
 	);
 
 	return data;
+};
+
+export const getLanguageName = (languageId) => {
+	const LANGUAGE_NAMES = {
+		74: "TypeScript",
+		63: "Javascript",
+		71: "Python",
+		62: "Java",
+	};
+	return LANGUAGE_NAMES[languageId] || "Unknown";
 };
