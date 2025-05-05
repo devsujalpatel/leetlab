@@ -121,3 +121,10 @@ model ProblemSolved {
 
   @@unique([userId, problemId])
 }
+
+
+model Playlist {
+  id String @id @default(uuid())
+  name String
+  description String?
+}
