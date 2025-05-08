@@ -139,7 +139,7 @@ export const updateProblem = async (req, res) => {
 			tags,
 			examples,
 			constraints,
-			testCases,
+			testcases,
 			codeSnippets,
 			referenceSolutions,
 		} = req.body;
@@ -169,7 +169,7 @@ export const updateProblem = async (req, res) => {
 					.status(400)
 					.json({ error: `Unsupported language: ${language}` });
 			}
-			const submissions = testCases.map(({ input, output }) => ({
+			const submissions = testcases.map(({ input, output }) => ({
 				source_code: solutionCode,
 				language_id: languageId,
 				stdin: input,
@@ -196,24 +196,23 @@ export const updateProblem = async (req, res) => {
 		const updatedProblem = await db.problem.update({
 			where: { id },
 			data: {
-			  title,
-			  description,
-			  difficulty,
-			  tags,
-			  examples,
-			  constraints,
-			  testCases,
-			  codeSnippets,
-			  referenceSolutions,
+				title,
+				description,
+				difficulty,
+				tags,
+				examples,
+				constraints,
+				testcases,
+				codeSnippets,
+				referenceSolutions,
 			},
-		  });
-	  
-		  res.status(200).json({
-			success: true,
-			message: 'Problem updated successfully',
-			problem: updatedProblem,
-		  });
+		});
 
+		res.status(200).json({
+			success: true,
+			message: "Problem updated successfully",
+			problem: updatedProblem,
+		});
 	} catch (error) {
 		console.log("Error while Updating problem", error);
 		return res.status(500).json({
@@ -250,4 +249,12 @@ export const deleteProblem = async (req, res) => {
 	});
 };
 
-export const getAllProblemSolvedByUser = async (req, res) => {};
+export const getAllProblemSolvedByUser = async (req, res) => {
+	try {
+		const problems = await db.problem.findMany({
+
+		})
+	} catch (error) {
+		
+	}
+};
